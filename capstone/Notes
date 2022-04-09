@@ -1,0 +1,45 @@
+Use case:
+User starts program. Vending machine displays welcome menu with options
+User most likely selects first option; displaying items
+User is returned to main menu, user most likely selects purchase
+Vending machine makes internal calculations based on user's selection
+Vending machine prompts user for currency, most likely in coins
+Vending machine makes internal calculation for fewest amount of coins to return
+Vending machine dispenses product and appropriate change; updates internal log
+
+Start Machine
+	1)(Main) Construct a new Menu object with System.in , System.out
+	parameters
+	2)(Main)Construct a new VendingMachineCLI object with an instance of
+	Menu object as a parameter
+	Set Initial State
+		3) (VendingMachineCLI Constructor)Construct new Item
+		Stockable
+		4)(VendingMachineCLI Constructor)Construct new Currency
+		Stockable
+	Display Opening Menu
+		5)(Main)VendingMachineCLI instance calls run method; Starts
+		open while loop {String = menu method call
+		getChoiceFromOptions(Objects[] options)
+		while
+
+
+1) Redundant cuz obvs
+2) COMPLETE!! WOOP! WOOP!
+    added an else if to the run method, creating the exit option which
+    closes the program
+3) Create a file reader for the csv file. Preferably automated. Can turn the different
+    columns into data for each object in the vending machine
+    Reference "Vending Machine Data File" at the bottom of the README
+4) Redundant: restated in 5
+5) User selects 1 and sees:
+    Slot Identifier, Name, Current Inventory(Starts at 5 a piece; SOLD OUT when empty)
+6) User selects 2 and sees:
+    Purchase menu (Reference read me)
+7)
+8)
+9)
+10)
+11)
+
+Make a calculator
