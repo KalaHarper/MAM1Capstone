@@ -2,7 +2,14 @@ package com.techelevator;
 
 import com.techelevator.view.Menu;
 
+import java.sql.SQLOutput;
+import java.util.Scanner;
+
 public class VendingMachineCLI {
+	Scanner userInput = new Scanner(System.in);
+
+	private Menu menu;
+	private static CashBank cashBank;
 
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
@@ -12,15 +19,20 @@ public class VendingMachineCLI {
 	private static final String PURCHASE_MENU_SELECT_PRODUCT = "Purchase Product";
 	private static final String PURCHASE_MENU_FINISH_TRANSACTION = "Finish Transaction";
 	private static final String[] PURCHASE_MENU_OPTIONS = {PURCHASE_MENU_FEED_MONEY, PURCHASE_MENU_SELECT_PRODUCT, PURCHASE_MENU_FINISH_TRANSACTION};
+	private static final String ONE_DOLLAR = "$1";
+	private static final String TWO_DOLLAR = "$2";
+	private static final String FIVE_DOLLAR = "$5";
+	private static final String TEN_DOLLAR = "$10";
+	private static final String I_HAVE_NO_MONEY = "=(";
+	private static final String[] BILL_DENOMINATIONS = {ONE_DOLLAR, TWO_DOLLAR, FIVE_DOLLAR, TEN_DOLLAR, I_HAVE_NO_MONEY};
 
-	private Menu menu;
 
 	public VendingMachineCLI(Menu menu) {
 		this.menu = menu;
 	}
 
 	public void run() {
-		CashBank cashBank = new CashBank();
+
 		Inventory inventory = new Inventory();
 		inventory.loadInventory();
 		while (true) {
@@ -37,15 +49,34 @@ public class VendingMachineCLI {
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				// do purchase
 				while(true){
-					String purchasingDecision = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
 
+					String purchasingDecision = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+//TODO Start from here next session
 					if (purchasingDecision.equals(PURCHASE_MENU_FEED_MONEY)){
-						
+						while(true){
+
+							String billEntered = (String) menu.getChoiceFromOptions(BILL_DENOMINATIONS);
+
+							if (billEntered.equals(ONE_DOLLAR)){
+								cashBank.addMoney(1.00);
+							}else if (billEntered.equals(TWO_DOLLAR)){
+								cashBank.addMoney(2.00);
+							}else if (billEntered.equals(FIVE_DOLLAR)){
+								cashBank.addMoney(5.00);
+							}else if (billEntered.equals(TEN_DOLLAR)){
+								cashBank.addMoney(10.00);
+							} else if (billEntered.equals(I_HAVE_NO_MONEY)){
+								System.out.println("Goodbye");
+								break;
+							}
+							System.out.println("Current Money Provided: \n"+"$"+cashBank.getMoneyProvided());
+						}
 					}else if (purchasingDecision.equals(PURCHASE_MENU_SELECT_PRODUCT)){
 
 					}else if (purchasingDecision.equals(PURCHASE_MENU_FINISH_TRANSACTION)){
 
 					}
+					System.out.println("Current Money Provided: \n"+"$"+cashBank.getMoneyProvided());
 				}
 			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)){
 				System.out.println("Thank you, come again!");
