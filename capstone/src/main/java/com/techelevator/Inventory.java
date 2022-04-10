@@ -12,7 +12,11 @@ public class Inventory {
     private static List<String[]> inventoryList = new ArrayList<>();
     private static File manifest = new File(DEFAULT_LOADOUT);
 
+
+
     public Inventory(){
+//        List<String[]> inventoryList = Inventory.inventoryList;
+
     }
 
     public void loadInventory(){
@@ -26,5 +30,9 @@ public class Inventory {
             System.err.println("No file found at that location");
 
         }
+    }
+
+    public static List<String[]> getInventoryList() {
+        return inventoryList;
     }
 }
