@@ -1,0 +1,34 @@
+AT START:
+Stock inventory
+Stock CashBank
+Start ledger
+
+-DISPLAY MAIN MENU-
+1)Display vending machine items
+    display inventory;
+    returns to main menu
+2)purchase
+    opens make purchase menu
+        -MAKE PURCHASE-
+        1)Feed money
+            open tab
+            open cashbank menu
+                1)nickel
+                2)dime
+                3)quarter
+                4)dollar
+                5)put five on it
+                6)half of jackson but just as racist
+                    all add appropriate amount to tab up until either currency-
+                    requirement met OR refund pressed
+                    add to cashbank inventory and dispense change
+                    add to ledger
+                7)refund
+                    return coins in tab
+                    return to main menu
+        2)Select product
+            hold item until currency requirements met
+        3)Finish transaction
+            return to main menu
+
+3)exit
