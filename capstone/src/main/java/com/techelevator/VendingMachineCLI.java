@@ -10,6 +10,12 @@ public class VendingMachineCLI {
 
 	private Menu menu;
 	private static CashBank cashBank;
+	private static Inventory inventory = new Inventory();
+	private final int SLOT_INDICATOR = 0;
+	private final int PRODUCT_NAME = 1;
+	private final int PRICE = 2;
+	private final int PRODUCT_TYPE = 3;
+	private final int AMOUNT_IN_STOCK = 4;
 
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
@@ -33,19 +39,14 @@ public class VendingMachineCLI {
 
 	public void run() {
 
-		Inventory inventory = new Inventory();
+
 		inventory.loadInventory();
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
 			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
 				// display vending machine items
-				for (String[] item : inventory.getInventoryList()){
-					for(String detail : item){
-						System.out.print(detail+" ");
-					}
-					System.out.println();
-				}
+				displayMenuOptions();
 			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
 				// do purchase
 				while(true){
@@ -72,6 +73,15 @@ public class VendingMachineCLI {
 							System.out.println("Current Money Provided: \n"+"$"+cashBank.getMoneyProvided());
 						}
 					}else if (purchasingDecision.equals(PURCHASE_MENU_SELECT_PRODUCT)){
+							displayMenuOptions();
+							System.out.println("Please select item. (Example: select A1 for Potato Crisps) ");
+							String input = userInput.nextLine();
+							//if(inventory.getSlotIndicatorHashMap().containsKey(input.toUpperCase())){
+							if(inventory.getTesterMap().containsKey(input.toUpperCase())){
+								System.out.println("This bit still works");
+								//System.out.println(inventory.getTesterMap().get());
+							}else
+								System.out.println("This item does not exist. Please try again.");
 
 					}else if (purchasingDecision.equals(PURCHASE_MENU_FINISH_TRANSACTION)){
 
@@ -89,5 +99,14 @@ public class VendingMachineCLI {
 		Menu menu = new Menu(System.in, System.out);
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
+	}
+
+	public static void displayMenuOptions(){
+		for (String[] item : inventory.getInventoryList()){
+			for(String detail : item){
+				System.out.print(detail+" ");
+			}
+			System.out.println();
+		}
 	}
 }
