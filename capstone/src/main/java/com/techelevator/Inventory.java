@@ -14,6 +14,8 @@ public class Inventory {
     private static List<String[]> inventoryList = new ArrayList<>();
     private static File manifest = new File(DEFAULT_LOADOUT);
     private static HashMap<String, String[]> productInfoBySlot = new HashMap<>(); //Removed old List
+    private static List cartList = new ArrayList();
+    public static double cost = 0.00;
 
     public Inventory() {} //Removed List that was declared in here
 
@@ -51,4 +53,27 @@ public class Inventory {
         String[] placeholder = productInfoBySlot.get(key);
         return placeholder[index];
     }
+    public static String getProductDetail(String product, int detail){
+        String[] placeholder = productInfoBySlot.get(product);
+        return placeholder[detail];
+    }
+
+    public static boolean isInStock(String product, int detail){
+        int temp = Integer.parseInt(Inventory.getProductDetail(product, detail));
+        return temp > 0;
+    }
+
+
+
+    public static void setCartList(List cartList) {
+        Inventory.cartList = cartList;
+    }
+    public static double getCost() {
+        return cost;
+    }
+
+    public void setCost(String product, int cost) {
+        this.cost = Double.parseDouble(getProductDetail(product, cost));
+    }
+
 }

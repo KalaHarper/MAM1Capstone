@@ -24,18 +24,12 @@ Start Machine
 		while
 
 
-1) Redundant cuz obvs
+1) COMPLETE!! WOOP! WOOP!
 2) COMPLETE!! WOOP! WOOP!
-    added an else if to the run method, creating the exit option which
-    closes the program
-3) Create a file reader for the csv file. Preferably automated. Can turn the different
-    columns into data for each object in the vending machine
-    Reference "Vending Machine Data File" at the bottom of the README
-4) Redundant: restated in 5
-5) User selects 1 and sees:
-    Slot Identifier, Name, Current Inventory(Starts at 5 a piece; SOLD OUT when empty)
-6) User selects 2 and sees:
-    Purchase menu (Reference read me)
+3) WOOP! THERE IT IS!
+4) ....pretty sure?
+5)
+6)
 7)
 8)
 9)
@@ -43,3 +37,21 @@ Start Machine
 11)
 
 Make a calculator
+
+TO DO LIST:
+
+figure out this nullpointer nonsense
+change the =( to return to main menu or similar
+Make sure inventory restocks when product restarts
+inventory reads as SOLD OUT when true
+figure out 'current money provided' location
+change from purchase product to select product in 2nd menu
+dispense products as they are selected
+dispensing item displays name, cost, money remaining, and the
+        weird message
+update balances and inventory after dispensed item
+finish transaction: dispenses literal change, returns to main menu
+create audit log in Log.txt with localdate/time and currency
+create tests
+
+optional hidden menu

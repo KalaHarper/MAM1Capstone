@@ -2,6 +2,7 @@ package com.techelevator;
 
 import com.techelevator.view.Menu;
 
+import java.util.Locale;
 import java.util.Scanner;
 
 public class VendingMachineCLI {
@@ -75,13 +76,16 @@ public class VendingMachineCLI {
 					} else if (purchasingDecision.equals(PURCHASE_MENU_SELECT_PRODUCT)) {
 						inventory.displayContents();//changed method from vendingmachine display method to inventory method
 						System.out.println("Please select item. (Example: select A1 for Potato Crisps) ");
-						String input = userInput.nextLine();
+						String input = userInput.nextLine().toUpperCase(Locale.ROOT);
 						//if(inventory.getSlotIndicatorHashMap().containsKey(input.toUpperCase())){
-						if (inventory.getProductInfoBySlotMap().containsKey(input.toUpperCase())) {
-							System.out.println("This bit still works");
-							//System.out.println(inventory.getTesterMap().get());
+						if (inventory.getProductInfoBySlotMap().containsKey(input) &&
+								inventory.isInStock(input, AMOUNT_IN_STOCK)) {
+							inventory.setCost(input, PRICE);
+							if(cashBank.getMoneyProvided() >= inventory.getCost()){
+								System.out.println(inventory.getProductDetail(input, PRODUCT_NAME) + " " + inventory.getCost() + " " + cashBank.getReturnAmount(inventory.getCost()));
+							}
 						} else
-							System.out.println("This item does not exist. Please try again.");
+							System.out.println("This item is OUT OF STOCK. Please try again.");
 
 					} else if (purchasingDecision.equals(PURCHASE_MENU_FINISH_TRANSACTION)) {
 
