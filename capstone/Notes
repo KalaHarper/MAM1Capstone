@@ -40,12 +40,12 @@ Make a calculator
 
 TO DO LIST:
 
+format date/time in ledger
+figure put how to append Log instead of overwrite
 figure out this nullpointer nonsense
-change the =( to return to main menu or similar
 Make sure inventory restocks when product restarts
 inventory reads as SOLD OUT when true
 figure out 'current money provided' location
-change from purchase product to select product in 2nd menu
 dispense products as they are selected
 dispensing item displays name, cost, money remaining, and the
         weird message
