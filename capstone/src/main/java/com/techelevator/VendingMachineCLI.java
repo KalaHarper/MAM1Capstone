@@ -9,7 +9,7 @@ public class VendingMachineCLI {
 	Scanner userInput = new Scanner(System.in);
 
 	private Menu menu;
-	private static CashBank cashBank;
+	private static CashBank cashBank = new CashBank();
 	private static Ledger ledger = new Ledger();
 	private static Inventory inventory = new Inventory();
 	private static final int SLOT_INDICATOR = 0;
@@ -85,14 +85,15 @@ public class VendingMachineCLI {
 								inventory.isInStock(input, AMOUNT_IN_STOCK)) {
 							double cost = Double.parseDouble(inventory.getProductDetail(input, PRICE));
 							cashBank.setCost(cost);
-							if(cashBank.getMoneyProvided() >= cashBank.getCost()){
-								System.out.println(inventory.getProductDetail(input, PRODUCT_NAME) + " " + cashBank.getCost() + " " + cashBank.getReturnAmount());
-							}
+						if(cashBank.getMoneyProvided() >= cashBank.getCost()){
+							//displayDispenseMessage(input);
+							System.out.println(inventory.getProductDetail(input, PRODUCT_NAME) + " " + cashBank.getCost() + " " + cashBank.getReturnAmount());
+						}
 						} else
 							System.out.println("This item is OUT OF STOCK. Please try again.");
 
 					} else if (purchasingDecision.equals(PURCHASE_MENU_FINISH_TRANSACTION)) {
-
+						break; // returns to first menu
 					}
 					System.out.println("Current Money Provided: \n" + "$" + cashBank.getMoneyProvided());
 				}
@@ -108,5 +109,20 @@ public class VendingMachineCLI {
 		VendingMachineCLI cli = new VendingMachineCLI(menu);
 		cli.run();
 	}
+
+	//This was mostly so we don't have to type it all out later
+//	public static void displayDispenseMessage(String input){
+//		if(inventory.getProductDetail(input, PRODUCT_TYPE).equals( "Chip")){
+//			System.out.println("Crunch Crunch, Yum!");
+//		}else if(inventory.getProductDetail(input, PRODUCT_TYPE).equals("Candy")){
+//			System.out.println("Munch Munch, Yum!");
+//		}else if(inventory.getProductDetail(input, PRODUCT_TYPE).equals("Drink")){
+//			System.out.println("Glug Glug, Yum!");
+//		}else if(inventory.getProductDetail(input, PRODUCT_TYPE).equals("Gum")){
+//			System.out.println("Chew Chew, Yum!");
+//		}else {
+//			System.out.println("Dispense message failure");
+//		}
+//	}
 }
 

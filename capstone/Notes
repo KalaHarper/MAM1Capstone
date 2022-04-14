@@ -39,8 +39,8 @@ Start Machine
 Make a calculator
 
 TO DO LIST:
+fix order items show up in display screen - K HW
 change Ledger so it prints the correct info
-figure out this nullpointer nonsense
 Make sure inventory restocks when product restarts
 inventory reads as SOLD OUT when true
 figure out 'current money provided' location
@@ -51,5 +51,8 @@ update balances and inventory after dispensed item
 finish transaction: dispenses literal change, returns to main menu
 create audit log in Log.txt with localdate/time and currency
 create tests
+
+meet to practice presentation
+discuss pair programming experience and how to communicate needs in the future
 
 optional hidden menu

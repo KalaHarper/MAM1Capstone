@@ -6,7 +6,7 @@ import java.text.NumberFormat;
 
 public class CashBank {
     private static double moneyProvided = 0.00;
-    public static double cost = 0.00;
+    private static double cost = 0.00;
 
     public static double getMoneyProvided() {
         return moneyProvided;
@@ -16,15 +16,20 @@ public class CashBank {
         moneyProvided += inputCurrency;
     }
 
+
+
     public double getReturnAmount(){
+        moneyProvided -= cost;
+        cost = 0.00;
+
         //BigDecimal modifier = new BigDecimal(moneyProvided - cost);
        // MathContext thismayaswellhappen = new MathContext(2);
        // double change = modifier.doubleValue();
         //return NumberFormat.getCurrencyInstance().format(modifier);
-        return moneyProvided - cost;
+        return moneyProvided;
 
     }
-    public static double getCost() {
+    public double getCost() {
         return cost;
     }
     public void setCost(double cost) {
