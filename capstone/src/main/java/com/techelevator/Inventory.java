@@ -2,14 +2,12 @@ package com.techelevator;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Inventory {
     private static final String MAX_STOCK = "|5"; //Created constant
     private static final String DEFAULT_LOADOUT = "capstone/vendingmachine.csv";
+    private static final int STOCK_INDEX = 4;
     private static String[] inventoryVariables = new String[5];
     private static List<String[]> inventoryList = new ArrayList<>();
     private static File manifest = new File(DEFAULT_LOADOUT);
@@ -36,12 +34,27 @@ public class Inventory {
                 String lineReader = manifestReader.nextLine() + MAX_STOCK; //Called constant
                 inventoryVariables = lineReader.split("\\|");
                 productInfoBySlot.put(inventoryVariables[0], inventoryVariables);
+                inventoryVariables = null;
             }
         } catch (FileNotFoundException e) {
             System.err.println("Inventory file was not loaded properly. Please check file and run again.");
             System.exit(1); //Changed this (For no real reason)
         }
     }
+
+    public String getSound(String info){
+        if(info.equals("Chip")){
+			return "Crunch Crunch, Yum!";
+		}else if(info.equals("Candy")){
+			return "Munch Munch, Yum!";
+		}else if(info.equals("Drink")){
+			return "Glug Glug, Yum!";
+		}else if(info.equals("Gum")){
+			return "Chew Chew, Yum!";
+		}else {
+			return "Dispense message failure";
+		}
+	}
 
     public static HashMap<String, String[]> getProductInfoBySlotMap() {
         return productInfoBySlot;
@@ -63,7 +76,14 @@ public class Inventory {
         return temp > 0;
     }
 
-
+    public static void deincrementStock(String slotIndicator){
+        inventoryVariables = productInfoBySlot.get(slotIndicator.toUpperCase(Locale.ROOT));
+        int amountInStock = Integer.parseInt(getProductDetail(slotIndicator, STOCK_INDEX));
+        amountInStock --;
+        inventoryVariables[STOCK_INDEX] = String.valueOf(amountInStock);
+        productInfoBySlot.replace(slotIndicator, inventoryVariables);
+       inventoryVariables = null;
+    }
 
     public static void setCartList(List cartList) {
         Inventory.cartList = cartList;

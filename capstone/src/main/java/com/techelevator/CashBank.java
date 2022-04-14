@@ -5,22 +5,23 @@ import java.math.MathContext;
 import java.text.NumberFormat;
 
 public class CashBank {
-    private static double moneyProvided = 0.00;
-    private static double cost = 0.00;
+    private static BigDecimal moneyProvided = new BigDecimal("0.00");
+    private static BigDecimal cost = new BigDecimal("0.00");
+    private static BigDecimal balance = new BigDecimal("0.00");
 
-    public static double getMoneyProvided() {
-        return moneyProvided;
+    public static String getMoneyProvided() {
+        return moneyProvided.toString();
     }
 
-    public static void addMoney(double inputCurrency){
-        moneyProvided += inputCurrency;
+    public static void addMoney(BigDecimal inputCurrency){
+        moneyProvided = moneyProvided.add(inputCurrency);
     }
 
 
 
-    public double getReturnAmount(){
-        moneyProvided -= cost;
-        cost = 0.00;
+    public BigDecimal getReturnAmount(){
+        moneyProvided = moneyProvided.subtract(cost);
+        cost = BigDecimal.valueOf(0.00);
 
         //BigDecimal modifier = new BigDecimal(moneyProvided - cost);
        // MathContext thismayaswellhappen = new MathContext(2);
@@ -29,10 +30,10 @@ public class CashBank {
         return moneyProvided;
 
     }
-    public double getCost() {
+    public BigDecimal getCost() {
         return cost;
     }
-    public void setCost(double cost) {
+    public void setCost(BigDecimal cost) {
         this.cost = cost;
     }
 }
