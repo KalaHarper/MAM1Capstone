@@ -39,9 +39,7 @@ Start Machine
 Make a calculator
 
 TO DO LIST:
-
-format date/time in ledger
-figure put how to append Log instead of overwrite
+change Ledger so it prints the correct info
 figure out this nullpointer nonsense
 Make sure inventory restocks when product restarts
 inventory reads as SOLD OUT when true
