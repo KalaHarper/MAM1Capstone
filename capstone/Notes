@@ -45,7 +45,7 @@ add am/pm to log - K HW
 log other actions beside feed money
 change Ledger so it prints the correct info
 Make sure inventory restocks when product restarts
-inventory reads as SOLD OUT when true
+Fix format of setCost
 figure out 'current money provided' location
 dispense products as they are selected
 dispensing item displays name, cost, money remaining, and the
