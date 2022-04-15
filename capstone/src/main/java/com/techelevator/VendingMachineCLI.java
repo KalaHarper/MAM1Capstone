@@ -45,74 +45,90 @@ public class VendingMachineCLI {
 
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 
-			if (choice.equals(MAIN_MENU_OPTION_DISPLAY_ITEMS)) {
+			switch (choice) {
+				case MAIN_MENU_OPTION_DISPLAY_ITEMS:
 
-				inventory.displayContents();
+					inventory.displayContents();
 
-			} else if (choice.equals(MAIN_MENU_OPTION_PURCHASE)) {
+					break;
+				case MAIN_MENU_OPTION_PURCHASE:
 
-				while (true) {
+					label:
+					while (true) {
 
-					String purchasingDecision = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS, cashBank.getMoneyProvided());
-					if (purchasingDecision.equals(PURCHASE_MENU_FEED_MONEY)) {
+						String purchasingDecision = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS, CashBank.getMoneyProvided());
+						switch (purchasingDecision) {
+							case PURCHASE_MENU_FEED_MONEY:
 
-						while (true) {
+								label1:
+								while (true) {
 
-							String billEntered = (String) menu.getChoiceFromOptions(BILL_DENOMINATIONS, cashBank.getMoneyProvided());
-							String start = cashBank.getMoneyProvided().toString();
-							if (billEntered.equals(ONE_DOLLAR)) {
+									String billEntered = (String) menu.getChoiceFromOptions(BILL_DENOMINATIONS, CashBank.getMoneyProvided());
+									String start = CashBank.getMoneyProvided().toString();
+									switch (billEntered) {
+										case ONE_DOLLAR:
 
-								cashBank.addMoney(BigDecimal.valueOf(1.00));
-								ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + cashBank.getMoneyProvided());
-							} else if (billEntered.equals(TWO_DOLLAR)) {
-								cashBank.addMoney(BigDecimal.valueOf(2.00));
-								ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + cashBank.getMoneyProvided());
-							} else if (billEntered.equals(FIVE_DOLLAR)) {
-								cashBank.addMoney(BigDecimal.valueOf(5.00));
-								ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + cashBank.getMoneyProvided());
-							} else if (billEntered.equals(TEN_DOLLAR)) {
-								cashBank.addMoney(BigDecimal.valueOf(10.00));
-								ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + cashBank.getMoneyProvided());
-							} else if (billEntered.equals(I_HAVE_NO_MONEY)) {
+											CashBank.addMoney(BigDecimal.valueOf(1.00));
+											ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + CashBank.getMoneyProvided());
+											break;
+										case TWO_DOLLAR:
+											CashBank.addMoney(BigDecimal.valueOf(2.00));
+											ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + CashBank.getMoneyProvided());
+											break;
+										case FIVE_DOLLAR:
+											CashBank.addMoney(BigDecimal.valueOf(5.00));
+											ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + CashBank.getMoneyProvided());
+											break;
+										case TEN_DOLLAR:
+											CashBank.addMoney(BigDecimal.valueOf(10.00));
+											ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + CashBank.getMoneyProvided());
+											break;
+										case I_HAVE_NO_MONEY:
+											break label1;
+									}
+									System.out.println(" ");
+
+
+								}
+								break;
+							case PURCHASE_MENU_SELECT_PRODUCT: {
+								inventory.displayContents();
+								System.out.println("Please select item. (Example: select A1 for Potato Crisps) ");
+								String input = userInput.nextLine().trim().toUpperCase(Locale.ROOT);
+								String start = CashBank.getMoneyProvided().toString();
+								if (Inventory.getProductInfoBySlotMap().containsKey(input) &&
+										Inventory.isInStock(input)) {
+									BigDecimal cost = BigDecimal.valueOf(Double.parseDouble(Inventory.getProductCost(input, PRICE)));
+									cashBank.setCost(cost);
+									if (Double.parseDouble(CashBank.getMoneyProvided().toString()) >= cashBank.getCost().doubleValue()) {
+										Inventory.decrementStock(input);
+										System.out.println(Inventory.getProductDetail(input, PRODUCT_NAME) + " $" + cashBank.getCost() + " $" + cashBank.getReturnAmount());
+										System.out.println(inventory.getSound(Inventory.getProductDetail(input, PRODUCT_TYPE)));
+										ledger.printsToLog(Inventory.getProductDetail(input, PRODUCT_NAME) + " " + input + " $" + start + " $" + CashBank.getMoneyProvided());
+										ledger.updateSalesReport(Inventory.getProductDetail(input, PRODUCT_NAME));
+									} else {
+										System.out.println("Please add more money before attempting to purchase this product. \n");
+									}
+								} else
+									System.out.println("This item is OUT OF STOCK. Please try again.");
+
 								break;
 							}
-							System.out.println(" ");
-
-
-						}
-					} else if (purchasingDecision.equals(PURCHASE_MENU_SELECT_PRODUCT)) {
-						inventory.displayContents();
-						System.out.println("Please select item. (Example: select A1 for Potato Crisps) ");
-						String input = userInput.nextLine().trim().toUpperCase(Locale.ROOT);
-						String start = cashBank.getMoneyProvided().toString();
-						if (inventory.getProductInfoBySlotMap().containsKey(input) &&
-								inventory.isInStock(input)) {
-							BigDecimal cost = BigDecimal.valueOf(Double.parseDouble(inventory.getProductCost(input, PRICE)));
-							cashBank.setCost(cost);
-							if (Double.parseDouble(cashBank.getMoneyProvided().toString()) >= cashBank.getCost().doubleValue()) {
-								inventory.decrementStock(input);
-								System.out.println(inventory.getProductDetail(input, PRODUCT_NAME) + " $" + cashBank.getCost() + " $" + cashBank.getReturnAmount());
-								System.out.println(inventory.getSound(inventory.getProductDetail(input, PRODUCT_TYPE)));
-								ledger.printsToLog(inventory.getProductDetail(input, PRODUCT_NAME) + " " + input + " $" + start + " $" + cashBank.getMoneyProvided());
-								ledger.updateSalesReport(inventory.getProductDetail(input, PRODUCT_NAME));
-							} else {
-								System.out.println("Please add more money before attempting to purchase this product. \n");
+							case PURCHASE_MENU_FINISH_TRANSACTION: {
+								String start = CashBank.getMoneyProvided().toString();
+								CashBank.makeChange();
+								ledger.printsToLog("GIVE CHANGE: $" + start + " $" + CashBank.getMoneyProvided());
+								break label; // returns to first menu
 							}
-						} else
-							System.out.println("This item is OUT OF STOCK. Please try again.");
-
-					} else if (purchasingDecision.equals(PURCHASE_MENU_FINISH_TRANSACTION)) {
-						String start = cashBank.getMoneyProvided().toString();
-						cashBank.makeChange();
-						ledger.printsToLog("GIVE CHANGE: $" + start + " $" + cashBank.getMoneyProvided());
-						break; // returns to first menu
+						}
 					}
-				}
-			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
-				System.out.println("Thank you, come again!");
-				System.exit(0);
-			} else if (choice.equals("4")){
-				ledger.printSalesReport();
+					break;
+				case MAIN_MENU_OPTION_EXIT:
+					System.out.println("Thank you, come again!");
+					System.exit(0);
+				case "4":
+					ledger.printSalesReport();
+					break;
 			}
 		}
 	}

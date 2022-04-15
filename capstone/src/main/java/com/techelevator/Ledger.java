@@ -19,12 +19,14 @@ public class Ledger {
         File salesReport = new File("capstone\\SalesReport.txt");
         try (Scanner salesReader = new Scanner(salesReport)){
             while (salesReader.hasNextLine()){
-                String[] line = salesReader.toString().split("\\|");
-                sales.put(line[0], Integer.valueOf(line[1]));
+                String detail = salesReader.nextLine();
+                String[] line = detail.split("\\|");
+                sales.put(line[0].trim(), Integer.valueOf(line[1].trim()));
             }
 
         }catch (FileNotFoundException e){
-
+            System.err.println("No sales report file could be loaded");
+            System.exit(1);
         }
     }
 
