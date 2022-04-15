@@ -1,5 +1,6 @@
 package com.techelevator;
 
+import javax.management.ObjectName;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -8,22 +9,29 @@ import java.text.NumberFormat;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.HashMap;
+import java.util.Scanner;
 
 
 public class Ledger {
     private static final HashMap<String, Integer> sales = new HashMap<>();
-    private static final HashMap<String, String[]> temp = Inventory.getProductInfoBySlot();
 
     public void startSalesReport(){
-        for (String[] item : temp.values()){
-            sales.put(item[1], 0);
+        File salesReport = new File("capstone\\SalesReport.txt");
+        try (Scanner salesReader = new Scanner(salesReport)){
+            while (salesReader.hasNextLine()){
+                String[] line = salesReader.toString().split("\\|");
+                sales.put(line[0], Integer.valueOf(line[1]));
+            }
+
+        }catch (FileNotFoundException e){
+
         }
     }
 
     public void printsToLog(String info){
         try (PrintWriter writer = new PrintWriter(new FileOutputStream(new File("capstone\\Log.txt"), true))){
             Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat simpleDate = new SimpleDateFormat("MM/dd/yyyy hh:mm:s");
+            SimpleDateFormat simpleDate = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa");
             NumberFormat currency = NumberFormat.getCurrencyInstance();
             writer.println(simpleDate.format(calendar.getTime()) + " " + info);
             // how do I make this so the price is reformatted? Should I make an instance of number format somewhere else?
@@ -35,7 +43,7 @@ public class Ledger {
 
     public void updateSalesReport(String itemName){
         int currentSales = sales.get(itemName);
-        sales.replace(itemName, currentSales++);
+        sales.put(itemName, currentSales++);
     }
 
     public void printSalesReport(){

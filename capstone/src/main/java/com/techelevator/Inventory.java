@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Inventory {
+    private static final List<String> displayIterator = new ArrayList<>();
     private static final Ledger ledger = new Ledger();
     private static final String MAX_STOCK = "|5";
     private static final String DEFAULT_LOADOUT = "capstone/vendingmachine.csv";
@@ -17,8 +18,8 @@ public class Inventory {
     public Inventory() {}
 
     public void displayContents(){
-        for (String[] item : productInfoBySlot.values()){
-            for(String detail : item){
+        for (String slotIdentifier : displayIterator){
+            for(String detail :  productInfoBySlot.get(slotIdentifier)){
                 if (detail.equals("0")){
                     System.out.print("SOLD OUT ");
                     continue;
@@ -38,6 +39,7 @@ public class Inventory {
             while (manifestReader.hasNextLine()) {
                 String lineReader = manifestReader.nextLine() + MAX_STOCK;
                 inventoryVariables = lineReader.split("\\|");
+                displayIterator.add(inventoryVariables[0]);
                 productInfoBySlot.put(inventoryVariables[0], inventoryVariables);
                 inventoryVariables = null;
             }
@@ -96,7 +98,7 @@ public class Inventory {
         inventoryVariables = null;
     }
 
-    public static HashMap getProductInfoBySlot(){
-        return productInfoBySlot;
+    public static List getDisplayIterator(){
+        return displayIterator;
     }
 }

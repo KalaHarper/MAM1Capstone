@@ -9,15 +9,13 @@ import java.util.Scanner;
 public class VendingMachineCLI {
 	Scanner userInput = new Scanner(System.in);
 
-	private Menu menu;
-	private static CashBank cashBank = new CashBank();
-	private static Ledger ledger = new Ledger();
-	private static Inventory inventory = new Inventory();
-	private static final int SLOT_INDICATOR = 0;
+	private final Menu menu;
+	private static final CashBank cashBank = new CashBank();
+	private static final Ledger ledger = new Ledger();
+	private static final Inventory inventory = new Inventory();
 	private static final int PRODUCT_NAME = 1;
 	private static final int PRICE = 2;
 	private static final int PRODUCT_TYPE = 3;
-	private static final int AMOUNT_IN_STOCK = 4;
 	private static final String MAIN_MENU_OPTION_DISPLAY_ITEMS = "Display Vending Machine Items";
 	private static final String MAIN_MENU_OPTION_PURCHASE = "Purchase";
 	private static final String MAIN_MENU_OPTION_EXIT = "Exit";
@@ -55,13 +53,13 @@ public class VendingMachineCLI {
 
 				while (true) {
 
-					String purchasingDecision = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS);
+					String purchasingDecision = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS, cashBank.getMoneyProvided());
 					if (purchasingDecision.equals(PURCHASE_MENU_FEED_MONEY)) {
 
 						while (true) {
 
-							String billEntered = (String) menu.getChoiceFromOptions(BILL_DENOMINATIONS);
-							String start = cashBank.getMoneyProvided();
+							String billEntered = (String) menu.getChoiceFromOptions(BILL_DENOMINATIONS, cashBank.getMoneyProvided());
+							String start = cashBank.getMoneyProvided().toString();
 							if (billEntered.equals(ONE_DOLLAR)) {
 
 								cashBank.addMoney(BigDecimal.valueOf(1.00));
@@ -76,39 +74,39 @@ public class VendingMachineCLI {
 								cashBank.addMoney(BigDecimal.valueOf(10.00));
 								ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + cashBank.getMoneyProvided());
 							} else if (billEntered.equals(I_HAVE_NO_MONEY)) {
-								System.out.println("Goodbye");
 								break;
 							}
 							System.out.println(" ");
-							System.out.println("Current Money Provided: \n" + "$" + cashBank.getMoneyProvided());
+
 
 						}
 					} else if (purchasingDecision.equals(PURCHASE_MENU_SELECT_PRODUCT)) {
 						inventory.displayContents();
 						System.out.println("Please select item. (Example: select A1 for Potato Crisps) ");
 						String input = userInput.nextLine().trim().toUpperCase(Locale.ROOT);
-						String start = cashBank.getMoneyProvided();
+						String start = cashBank.getMoneyProvided().toString();
 						if (inventory.getProductInfoBySlotMap().containsKey(input) &&
 								inventory.isInStock(input)) {
 							BigDecimal cost = BigDecimal.valueOf(Double.parseDouble(inventory.getProductCost(input, PRICE)));
 							cashBank.setCost(cost);
-							if (Double.parseDouble(cashBank.getMoneyProvided()) >= cashBank.getCost().doubleValue()) {
+							if (Double.parseDouble(cashBank.getMoneyProvided().toString()) >= cashBank.getCost().doubleValue()) {
 								inventory.decrementStock(input);
 								System.out.println(inventory.getProductDetail(input, PRODUCT_NAME) + " $" + cashBank.getCost() + " $" + cashBank.getReturnAmount());
 								System.out.println(inventory.getSound(inventory.getProductDetail(input, PRODUCT_TYPE)));
 								ledger.printsToLog(inventory.getProductDetail(input, PRODUCT_NAME) + " " + input + " $" + start + " $" + cashBank.getMoneyProvided());
 								ledger.updateSalesReport(inventory.getProductDetail(input, PRODUCT_NAME));
+							} else {
+								System.out.println("Please add more money before attempting to purchase this product. \n");
 							}
 						} else
 							System.out.println("This item is OUT OF STOCK. Please try again.");
 
 					} else if (purchasingDecision.equals(PURCHASE_MENU_FINISH_TRANSACTION)) {
-						String start = cashBank.getMoneyProvided();
+						String start = cashBank.getMoneyProvided().toString();
 						cashBank.makeChange();
 						ledger.printsToLog("GIVE CHANGE: $" + start + " $" + cashBank.getMoneyProvided());
 						break; // returns to first menu
 					}
-					System.out.println("Current Money Provided: \n" + "$" + cashBank.getMoneyProvided());
 				}
 			} else if (choice.equals(MAIN_MENU_OPTION_EXIT)) {
 				System.out.println("Thank you, come again!");

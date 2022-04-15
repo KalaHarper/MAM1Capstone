@@ -3,6 +3,7 @@ package com.techelevator.view;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.math.BigDecimal;
 import java.util.Scanner;
 
 public class Menu {
@@ -13,6 +14,15 @@ public class Menu {
 	public Menu(InputStream input, OutputStream output) {
 		this.out = new PrintWriter(output);
 		this.in = new Scanner(input);
+	}
+
+	public Object getChoiceFromOptions(Object[] options, BigDecimal currentMoneies) {
+		Object choice = null;
+		while (choice == null) {
+			displayMenuOptions(options, currentMoneies);
+			choice = getChoiceFromUserInput(options);
+		}
+		return choice;
 	}
 
 	public Object getChoiceFromOptions(Object[] options) {
@@ -41,12 +51,24 @@ public class Menu {
 		return choice;
 	}
 
+	private void displayMenuOptions(Object[] options, BigDecimal currentMonies) {
+		out.println();
+		for (int i = 0; i < options.length; i++) {
+			int optionNum = i + 1;
+			out.println(optionNum + ") " + options[i]);
+		}
+		out.print(System.lineSeparator() + "Current Money Provided: " + "$" + currentMonies);
+		out.print(System.lineSeparator() + "Please choose an option >>> ");
+		out.flush();
+	}
+
 	private void displayMenuOptions(Object[] options) {
 		out.println();
 		for (int i = 0; i < options.length; i++) {
 			int optionNum = i + 1;
 			out.println(optionNum + ") " + options[i]);
 		}
+
 		out.print(System.lineSeparator() + "Please choose an option >>> ");
 		out.flush();
 	}

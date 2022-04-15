@@ -11,10 +11,9 @@ public class CashBank {
     private static final BigDecimal NICKEL = new BigDecimal("0.05");
     private static BigDecimal moneyProvided = new BigDecimal("0.00");
     private static BigDecimal cost = new BigDecimal("0.00");
-    private static BigDecimal balance = new BigDecimal("0.00");
 
-    public static String getMoneyProvided() {
-        return moneyProvided.toString();
+    public static BigDecimal getMoneyProvided() {
+        return moneyProvided;
     }
 
     public static void addMoney(BigDecimal inputCurrency){
@@ -26,28 +25,7 @@ public class CashBank {
         int dimes = 0;
         int nickels = 0;
         /*
-        System.out.println(big10.compareTo(big20) < -1);  // false
-System.out.println(big10.compareTo(big20) <= -1); // true
-System.out.println(big10.compareTo(big20) == -1); // true
-System.out.println(big10.compareTo(big20) >= -1); // true
-System.out.println(big10.compareTo(big20) > -1);  // false
-System.out.println(big10.compareTo(big20) != -1); // false
-
-System.out.println(big10.compareTo(big20) < 0);   // true
-System.out.println(big10.compareTo(big20) <= 0);  // true
-System.out.println(big10.compareTo(big20) == 0);  // false
-System.out.println(big10.compareTo(big20) >= 0);  // false
-System.out.println(big10.compareTo(big20) > 0);   // false
-System.out.println(big10.compareTo(big20) != 0);  // true
-
-System.out.println(big10.compareTo(big20) < 1);   // true
-System.out.println(big10.compareTo(big20) <= 1);  // true
-System.out.println(big10.compareTo(big20) == 1);  // false
-System.out.println(big10.compareTo(big20) >= 1);  // false
-System.out.println(big10.compareTo(big20) > 1);   // false
-System.out.println(big10.compareTo(big20) != 1);  // true
-
-It will return 0 if x and y are equal, 1 if x is greater than y and -1 if x is smaller than y
+        It will return 0 if x and y are equal, 1 if x is greater than y and -1 if x is smaller than y
          */
         while (moneyProvided.compareTo(ZERO) != 0){
             if (moneyProvided.subtract(QUARTER).compareTo(ZERO) >= 0){
@@ -79,7 +57,6 @@ It will return 0 if x and y are equal, 1 if x is greater than y and -1 if x is s
     public BigDecimal getCost() {
         return cost;
     }
-    public void setCost(BigDecimal cost) {
-        this.cost = cost;
+    public void setCost(BigDecimal cost) { this.cost = cost;
     }
 }

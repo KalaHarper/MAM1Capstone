@@ -1,4 +1,4 @@
-package com.techelevator.view;
+package com.techelevator;
 
 import org.junit.Test;
 
