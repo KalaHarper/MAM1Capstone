@@ -12,7 +12,7 @@ public class Inventory {
     private static final int STOCK_INDEX = 4;
     private static String[] inventoryVariables = new String[5];
     private static final File manifest = new File(DEFAULT_LOADOUT);
-    private final HashMap<String, String[]> productInfoBySlot = new HashMap<>();
+    private static final HashMap<String, String[]> productInfoBySlot = new HashMap<>();
 
 
     public Inventory() {}
@@ -75,7 +75,7 @@ public class Inventory {
         return placeholder[index];
     }
 
-    public String getProductDetail(String product, int detail){
+    public static String getProductDetail(String product, int detail){
         String[] placeholder = productInfoBySlot.get(product);
         return placeholder[detail];
     }
