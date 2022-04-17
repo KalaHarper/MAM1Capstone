@@ -83,8 +83,9 @@ public class VendingMachineCLI {
 				inventory.decrementStock(input);
 				System.out.println(inventory.getProductDetail(input, PRODUCT_NAME) + " $" + cashBank.getCost() + " $" + cashBank.getReturnAmount());
 				System.out.println(inventory.getSound(inventory.getProductDetail(input, PRODUCT_TYPE)));
+				ledger.updateSalesReport(inventory.getProductDetail(input, PRODUCT_NAME), cashBank.getCost());
 				ledger.printsToLog(inventory.getProductDetail(input, PRODUCT_NAME) + " " + input + " $" + start + " $" + cashBank.getMoneyProvided());
-				ledger.updateSalesReport(inventory.getProductDetail(input, PRODUCT_NAME));
+
 			} else {
 				System.out.println("Please add more money before attempting to purchase this product. \n");
 			}
