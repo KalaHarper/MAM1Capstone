@@ -5,7 +5,7 @@ import org.junit.Test;
 public class SalesReportTest {
 
     @Test
-    public void itsALIVE(){
+    public void testItsALIVE(){
         //Arrange
 
         //Act
