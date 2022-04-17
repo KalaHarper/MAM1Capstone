@@ -7,18 +7,18 @@ public class CashBank {
     private static final BigDecimal QUARTER = new BigDecimal("0.25");
     private static final BigDecimal DIME = new BigDecimal("0.10");
     private static final BigDecimal NICKEL = new BigDecimal("0.05");
-    private static BigDecimal moneyProvided = new BigDecimal("0.00");
-    private static BigDecimal cost = new BigDecimal("0.00");
+    private BigDecimal moneyProvided = new BigDecimal("0.00");
+    private BigDecimal cost = new BigDecimal("0.00");
 
-    public static BigDecimal getMoneyProvided() {
+    public BigDecimal getMoneyProvided() {
         return moneyProvided;
     }
 
-    public static void addMoney(BigDecimal inputCurrency){
+    public void addMoney(BigDecimal inputCurrency){
         moneyProvided = moneyProvided.add(inputCurrency);
     }
 
-    public static void makeChange(){
+    public void makeChange(){
         int quarters = 0;
         int dimes = 0;
         int nickels = 0;
@@ -41,7 +41,7 @@ public class CashBank {
         System.out.println("Have a nice day!");
     }
 
-    public static BigDecimal getReturnAmount(){
+    public BigDecimal getReturnAmount(){
         moneyProvided = moneyProvided.subtract(cost);
         cost = BigDecimal.valueOf(0.00);
         return moneyProvided;

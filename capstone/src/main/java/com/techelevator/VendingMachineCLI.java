@@ -56,32 +56,32 @@ public class VendingMachineCLI {
 					label:
 					while (true) {
 
-						String purchasingDecision = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS, CashBank.getMoneyProvided());
+						String purchasingDecision = (String) menu.getChoiceFromOptions(PURCHASE_MENU_OPTIONS, cashBank.getMoneyProvided());
 						switch (purchasingDecision) {
 							case PURCHASE_MENU_FEED_MONEY:
 
 								label1:
 								while (true) {
 
-									String billEntered = (String) menu.getChoiceFromOptions(BILL_DENOMINATIONS, CashBank.getMoneyProvided());
-									String start = CashBank.getMoneyProvided().toString();
+									String billEntered = (String) menu.getChoiceFromOptions(BILL_DENOMINATIONS, cashBank.getMoneyProvided());
+									String start = cashBank.getMoneyProvided().toString();
 									switch (billEntered) {
 										case ONE_DOLLAR:
 
-											CashBank.addMoney(BigDecimal.valueOf(1.00));
-											ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + CashBank.getMoneyProvided());
+											cashBank.addMoney(BigDecimal.valueOf(1.00));
+											ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + cashBank.getMoneyProvided());
 											break;
 										case TWO_DOLLAR:
-											CashBank.addMoney(BigDecimal.valueOf(2.00));
-											ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + CashBank.getMoneyProvided());
+											cashBank.addMoney(BigDecimal.valueOf(2.00));
+											ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + cashBank.getMoneyProvided());
 											break;
 										case FIVE_DOLLAR:
-											CashBank.addMoney(BigDecimal.valueOf(5.00));
-											ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + CashBank.getMoneyProvided());
+											cashBank.addMoney(BigDecimal.valueOf(5.00));
+											ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + cashBank.getMoneyProvided());
 											break;
 										case TEN_DOLLAR:
-											CashBank.addMoney(BigDecimal.valueOf(10.00));
-											ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + CashBank.getMoneyProvided());
+											cashBank.addMoney(BigDecimal.valueOf(10.00));
+											ledger.printsToLog("FEED MONEY: " + "$" + start + " $" + cashBank.getMoneyProvided());
 											break;
 										case I_HAVE_NO_MONEY:
 											break label1;
@@ -95,17 +95,17 @@ public class VendingMachineCLI {
 								inventory.displayContents();
 								System.out.println("Please select item. (Example: select A1 for Potato Crisps) ");
 								String input = userInput.nextLine().trim().toUpperCase(Locale.ROOT);
-								String start = CashBank.getMoneyProvided().toString();
-								if (Inventory.getProductInfoBySlotMap().containsKey(input) &&
-										Inventory.isInStock(input)) {
-									BigDecimal cost = BigDecimal.valueOf(Double.parseDouble(Inventory.getProductCost(input, PRICE)));
+								String start = cashBank.getMoneyProvided().toString();
+								if (inventory.getProductInfoBySlotMap().containsKey(input) &&
+										inventory.isInStock(input)) {
+									BigDecimal cost = BigDecimal.valueOf(Double.parseDouble(inventory.getProductCost(input, PRICE)));
 									cashBank.setCost(cost);
-									if (Double.parseDouble(CashBank.getMoneyProvided().toString()) >= cashBank.getCost().doubleValue()) {
-										Inventory.decrementStock(input);
-										System.out.println(Inventory.getProductDetail(input, PRODUCT_NAME) + " $" + cashBank.getCost() + " $" + cashBank.getReturnAmount());
-										System.out.println(inventory.getSound(Inventory.getProductDetail(input, PRODUCT_TYPE)));
-										ledger.printsToLog(Inventory.getProductDetail(input, PRODUCT_NAME) + " " + input + " $" + start + " $" + CashBank.getMoneyProvided());
-										ledger.updateSalesReport(Inventory.getProductDetail(input, PRODUCT_NAME));
+									if (Double.parseDouble(cashBank.getMoneyProvided().toString()) >= cashBank.getCost().doubleValue()) {
+										inventory.decrementStock(input);
+										System.out.println(inventory.getProductDetail(input, PRODUCT_NAME) + " $" + cashBank.getCost() + " $" + cashBank.getReturnAmount());
+										System.out.println(inventory.getSound(inventory.getProductDetail(input, PRODUCT_TYPE)));
+										ledger.printsToLog(inventory.getProductDetail(input, PRODUCT_NAME) + " " + input + " $" + start + " $" + cashBank.getMoneyProvided());
+										ledger.updateSalesReport(inventory.getProductDetail(input, PRODUCT_NAME));
 									} else {
 										System.out.println("Please add more money before attempting to purchase this product. \n");
 									}
@@ -115,9 +115,9 @@ public class VendingMachineCLI {
 								break;
 							}
 							case PURCHASE_MENU_FINISH_TRANSACTION: {
-								String start = CashBank.getMoneyProvided().toString();
-								CashBank.makeChange();
-								ledger.printsToLog("GIVE CHANGE: $" + start + " $" + CashBank.getMoneyProvided());
+								String start = cashBank.getMoneyProvided().toString();
+								cashBank.makeChange();
+								ledger.printsToLog("GIVE CHANGE: $" + start + " $" + cashBank.getMoneyProvided());
 								break label; // returns to first menu
 							}
 						}

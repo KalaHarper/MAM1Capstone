@@ -11,16 +11,18 @@ import java.io.PrintStream;
 import java.math.BigDecimal;
 
 public class CashBankTest extends TestCase {
+    CashBank cartoonNetwork = new CashBank();
+
     @Test
     public void testAddMoney() {
         //Arrange
         BigDecimal expected = new BigDecimal("3.30");
         BigDecimal jorjay = new BigDecimal("1.65");
         //Act
-        CashBank.addMoney(jorjay);
-        CashBank.addMoney(jorjay);
+        cartoonNetwork.addMoney(jorjay);
+        cartoonNetwork.addMoney(jorjay);
         //Assert
-        Assert.assertEquals(expected, CashBank.getMoneyProvided());
+        Assert.assertEquals(expected, cartoonNetwork.getMoneyProvided());
     }
 
     @Test
@@ -32,31 +34,30 @@ public class CashBankTest extends TestCase {
         BigDecimal goku = new BigDecimal("1.85");
 
         //added the money
-        CashBank.addMoney(goku);
-        CashBank.addMoney(vegeta);
+        cartoonNetwork.addMoney(goku);
+        cartoonNetwork.addMoney(vegeta);
 
         //calling method in question
-        CashBank.makeChange();
+        cartoonNetwork.makeChange();
 
         //Assert
-        Assert.assertEquals(piccolo, CashBank.getMoneyProvided());
+        Assert.assertEquals(piccolo, cartoonNetwork.getMoneyProvided());
     }
 
     public void testGetReturnAmount() {
-        //Expected
-        BigDecimal courageTheCowardlyDog = new BigDecimal("0.00");
+        //Expected result
+        BigDecimal courageTheCowardlyDog = new BigDecimal("2.50");
 
         //Adding this much
-        BigDecimal muriel = new BigDecimal("3.00");
+        BigDecimal muriel = new BigDecimal("4.00");
+        cartoonNetwork.addMoney(muriel);
 
         //Subtracting this much
         BigDecimal eustace = new BigDecimal("1.50");
 
-        //Calling methods
-        CashBank.addMoney(muriel);
-        CashBank.getReturnAmount();
+        cartoonNetwork.setCost(eustace);
 
-        Assert.assertEquals(courageTheCowardlyDog, CashBank.getMoneyProvided());
+        Assert.assertEquals(courageTheCowardlyDog, cartoonNetwork.getReturnAmount());
 
 
     }

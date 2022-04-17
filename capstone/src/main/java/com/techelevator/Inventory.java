@@ -5,14 +5,14 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Inventory {
-    private static final List<String> displayIterator = new ArrayList<>();
+    private final List<String> displayIterator = new ArrayList<>();
     private static final Ledger ledger = new Ledger();
     private static final String MAX_STOCK = "|5";
     private static final String DEFAULT_LOADOUT = "capstone/vendingmachine.csv";
     private static final int STOCK_INDEX = 4;
     private static String[] inventoryVariables = new String[5];
     private static final File manifest = new File(DEFAULT_LOADOUT);
-    private static final HashMap<String, String[]> productInfoBySlot = new HashMap<>();
+    private final HashMap<String, String[]> productInfoBySlot = new HashMap<>();
 
 
     public Inventory() {}
@@ -65,23 +65,23 @@ public class Inventory {
         }
 	}
 
-    public static HashMap<String, String[]> getProductInfoBySlotMap() {
+    public HashMap<String, String[]> getProductInfoBySlotMap() {
         return productInfoBySlot;
     }
 
 
-    public static String getProductCost(String key, int index) {
+    public String getProductCost(String key, int index) {
         String[] placeholder = productInfoBySlot.get(key);
         return placeholder[index];
     }
 
-    public static String getProductDetail(String product, int detail){
+    public String getProductDetail(String product, int detail){
         String[] placeholder = productInfoBySlot.get(product);
         return placeholder[detail];
     }
 
-    public static boolean isInStock(String product){
-        int temp = Integer.parseInt(Inventory.getProductDetail(product, STOCK_INDEX));
+    public boolean isInStock(String product){
+        int temp = Integer.parseInt(getProductDetail(product, STOCK_INDEX));
         return temp > 0;
         /*
         alternate return value:
@@ -89,7 +89,7 @@ public class Inventory {
         */
     }
 
-    public static void decrementStock(String slotIndicator){
+    public void decrementStock(String slotIndicator){
         inventoryVariables = productInfoBySlot.get(slotIndicator.toUpperCase(Locale.ROOT));
         int amountInStock = Integer.parseInt(getProductDetail(slotIndicator, STOCK_INDEX));
         amountInStock --;
@@ -98,7 +98,7 @@ public class Inventory {
         inventoryVariables = null;
     }
 
-    public static List getDisplayIterator(){
+    public List getDisplayIterator(){
         return displayIterator;
     }
 }

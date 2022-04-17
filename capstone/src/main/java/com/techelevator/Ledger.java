@@ -16,6 +16,7 @@ public class Ledger {
     private static final HashMap<String, Integer> sales = new HashMap<>();
 
     public void startSalesReport(){
+        //considered possiblity of making source file interchangeable
         File salesReport = new File("capstone\\SalesReport.txt");
         try (Scanner salesReader = new Scanner(salesReport)){
             while (salesReader.hasNextLine()){
