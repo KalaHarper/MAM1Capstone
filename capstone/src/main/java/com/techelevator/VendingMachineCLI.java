@@ -94,7 +94,7 @@ public class VendingMachineCLI {
 			System.out.println("This item is OUT OF STOCK. Please try again.");
 
 	}
-
+	//
 	public void makePurchase(){
 		boolean c = true;
 		while (c) {
@@ -118,15 +118,13 @@ public class VendingMachineCLI {
 			}
 		}
 	}
-
+	//displays options and navigates to option selected
 	public void mainMenu(){
 		while (true) {
 			String choice = (String) menu.getChoiceFromOptions(MAIN_MENU_OPTIONS);
 		switch (choice) {
 			case MAIN_MENU_OPTION_DISPLAY_ITEMS:
-
 				inventory.displayContents();
-
 				break;
 			case MAIN_MENU_OPTION_PURCHASE:
 				makePurchase();

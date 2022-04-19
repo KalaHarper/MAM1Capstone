@@ -17,28 +17,15 @@ public class Ledger {
     private static final HashMap<String, Integer> sales = new HashMap<>();
     private static BigDecimal totalSales = new BigDecimal("0.00");
 
-    public void printsToLog(String info) {
-        try (PrintWriter writer = new PrintWriter(new FileOutputStream(new File("capstone\\Log.txt"), true))) {
-            Calendar calendar = Calendar.getInstance();
-            SimpleDateFormat simpleDate = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa");
-            NumberFormat currency = NumberFormat.getCurrencyInstance();
-            writer.println(simpleDate.format(calendar.getTime()) + " " + info);
-            // how do I make this so the price is reformatted? Should I make an instance of number format somewhere else?
-        } catch (FileNotFoundException e) {
-            System.err.println("No log text file loaded.");
-            System.exit(1);
-        }
-    }
-
+    //
     public void startSalesReport() {
-        //considered possiblity of making source file interchangeable
         File salesReport = new File("capstone\\SalesReport.txt");
         try (Scanner salesReader = new Scanner(salesReport)) {
             while (salesReader.hasNextLine()) {
                 String detail = salesReader.nextLine();
                 if(detail.contains("$")){
-                    String moreSpecifically = detail.substring(1);
-                    totalSales = BigDecimal.valueOf(Double.parseDouble(moreSpecifically));
+                    String totalSalesInfo = detail.substring(1);
+                    totalSales = BigDecimal.valueOf(Double.parseDouble(totalSalesInfo));
                     continue;
                 }
                 String[] line = detail.split("\\|");
@@ -66,6 +53,20 @@ public class Ledger {
         }
     }
 
+        public void printsToLog(String info) {
+        try (PrintWriter writer = new PrintWriter(new FileOutputStream(new File("capstone\\Log.txt"), true))) {
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat simpleDate = new SimpleDateFormat("MM/dd/yyyy hh:mm:ss aa");
+            NumberFormat currency = NumberFormat.getCurrencyInstance();
+            writer.println(simpleDate.format(calendar.getTime()) + " " + info);
+        } catch (FileNotFoundException e) {
+            System.err.println("No log text file loaded.");
+            System.exit(1);
+        }
+    }
+
+
+
 
     public void printSalesReport() {
             Calendar calendar = Calendar.getInstance();
@@ -79,7 +80,6 @@ public class Ledger {
             }catch (FileNotFoundException e){
                 System.out.println("printing report went repoorly");
             }
-        System.out.println(fileName);
     }
 
 }

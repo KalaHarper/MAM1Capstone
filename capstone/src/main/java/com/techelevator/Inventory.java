@@ -5,21 +5,38 @@ import java.io.FileNotFoundException;
 import java.util.*;
 
 public class Inventory {
-    private final List<String> displayIterator = new ArrayList<>();
-    private static final Ledger ledger = new Ledger();
+    private final List<String> DISPLAY_ITERATOR = new ArrayList<>();
+    private static final Ledger LEDGER = new Ledger();
     private static final String MAX_STOCK = "|5";
     private static final String DEFAULT_LOADOUT = "capstone/vendingmachine.csv";
     private static final int STOCK_INDEX = 4;
     private static String[] inventoryVariables = new String[5];
-    private static final File manifest = new File(DEFAULT_LOADOUT);
-    private static final HashMap<String, String[]> productInfoBySlot = new HashMap<>();
+    private static final File MANIFEST = new File(DEFAULT_LOADOUT);
+    private static final HashMap<String, String[]> PRODUCT_INFO_BY_SLOT = new HashMap<>();
 
 
     public Inventory() {}
 
+    //loads inventory from provided csv file
+    public void loadInventory() {
+        try (Scanner manifestReader = new Scanner(MANIFEST)) {
+            while (manifestReader.hasNextLine()) {
+                String lineReader = manifestReader.nextLine() + MAX_STOCK;
+                inventoryVariables = lineReader.split("\\|");
+                DISPLAY_ITERATOR.add(inventoryVariables[0]);
+                PRODUCT_INFO_BY_SLOT.put(inventoryVariables[0], inventoryVariables);
+                inventoryVariables = null;
+            }
+        } catch (FileNotFoundException e) {
+            System.err.println("Inventory file was not loaded properly. Please check file and run again.");
+            LEDGER.printsToLog("Inventory file was not loaded properly. System shut down to allow proper usage.");
+            System.exit(1);
+        }
+    }
+
     public void displayContents(){
-        for (String slotIdentifier : displayIterator){
-            for(String detail :  productInfoBySlot.get(slotIdentifier)){
+        for (String slotIdentifier : DISPLAY_ITERATOR){
+            for(String detail :  PRODUCT_INFO_BY_SLOT.get(slotIdentifier)){
                 if (detail.equals("0")){
                     System.out.print("SOLD OUT ");
                     continue;
@@ -34,21 +51,6 @@ public class Inventory {
         }
     }
 
-    public void loadInventory() {
-        try (Scanner manifestReader = new Scanner(manifest)) {
-            while (manifestReader.hasNextLine()) {
-                String lineReader = manifestReader.nextLine() + MAX_STOCK;
-                inventoryVariables = lineReader.split("\\|");
-                displayIterator.add(inventoryVariables[0]);
-                productInfoBySlot.put(inventoryVariables[0], inventoryVariables);
-                inventoryVariables = null;
-            }
-        } catch (FileNotFoundException e) {
-            System.err.println("Inventory file was not loaded properly. Please check file and run again.");
-            ledger.printsToLog("Inventory file was not loaded properly. System shut down to allow proper usage.");
-            System.exit(1);
-        }
-    }
 
     public String getSound(String info){
         switch (info) {
@@ -66,17 +68,17 @@ public class Inventory {
 	}
 
     public HashMap<String, String[]> getProductInfoBySlotMap() {
-        return productInfoBySlot;
+        return PRODUCT_INFO_BY_SLOT;
     }
 
 
     public String getProductCost(String key, int index) {
-        String[] placeholder = productInfoBySlot.get(key);
+        String[] placeholder = PRODUCT_INFO_BY_SLOT.get(key);
         return placeholder[index];
     }
 
     public static String getProductDetail(String product, int detail){
-        String[] placeholder = productInfoBySlot.get(product);
+        String[] placeholder = PRODUCT_INFO_BY_SLOT.get(product);
         return placeholder[detail];
     }
 
@@ -90,15 +92,15 @@ public class Inventory {
     }
 
     public void decrementStock(String slotIndicator){
-        inventoryVariables = productInfoBySlot.get(slotIndicator.toUpperCase(Locale.ROOT));
+        inventoryVariables = PRODUCT_INFO_BY_SLOT.get(slotIndicator.toUpperCase(Locale.ROOT));
         int amountInStock = Integer.parseInt(getProductDetail(slotIndicator, STOCK_INDEX));
         amountInStock --;
         inventoryVariables[STOCK_INDEX] = String.valueOf(amountInStock);
-        productInfoBySlot.replace(slotIndicator, inventoryVariables);
+        PRODUCT_INFO_BY_SLOT.replace(slotIndicator, inventoryVariables);
         inventoryVariables = null;
     }
 
-    public List getDisplayIterator(){
-        return displayIterator;
+    public List getDISPLAY_ITERATOR(){
+        return DISPLAY_ITERATOR;
     }
 }
